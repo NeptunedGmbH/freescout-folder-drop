@@ -1,0 +1,27 @@
+{
+    "name": "FolderDrop",
+    "alias": "folderdrop",
+    "description": "Gespräche auf einen Custom Folder ziehen und nur dessen Markierung setzen.",
+    "version": "1.0.0",
+    "detailsUrl": "https://github.com/NeptunedGmbH/freescout-folder-drop",
+    "author": "NeptunedGmbH",
+    "authorUrl": "https://github.com/NeptunedGmbH",
+    "requiredAppVersion": "1.8.246",
+    "requiredPhpVersion": "8.1",
+    "license": "MIT",
+    "keywords": [],
+    "latestVersionUrl": "https://raw.githubusercontent.com/NeptunedGmbH/freescout-folder-drop/refs/heads/main/version.txt",
+    "latestVersionZipUrl": "https://github.com/NeptunedGmbH/freescout-folder-drop/releases/latest/download/FolderDrop.zip",
+    "sha256sumsUrl": "https://github.com/NeptunedGmbH/freescout-folder-drop/releases/latest/download/SHA256SUMS",
+    "healthCommand": "folderdrop:health",
+    "active": 0,
+    "order": 0,
+    "providers": [
+        "Modules\\FolderDrop\\Providers\\FolderDropServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

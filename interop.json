@@ -1,0 +1,32 @@
+{
+    "project": {
+        "id": "folder-drop",
+        "name": "FolderDrop",
+        "repository": "https://github.com/NeptunedGmbH/freescout-folder-drop",
+        "interop_protocol": "1.0.0"
+    },
+    "compatibility": {
+        "freescout": ">=1.8.246",
+        "php": ">=8.1",
+        "projects": {
+            "tags": {
+                "relationship": "required_dependency",
+                "required": true,
+                "name": "Tags",
+                "module": "Tags"
+            },
+            "custom-folders": {
+                "relationship": "required_dependency",
+                "required": true,
+                "name": "CustomFolders",
+                "module": "CustomFolders"
+            },
+            "nested-tags": {
+                "relationship": "optional_integration",
+                "required": false,
+                "name": "NestedTags",
+                "module": "NestedTags"
+            }
+        }
+    }
+}

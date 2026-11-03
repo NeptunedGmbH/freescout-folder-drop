@@ -1,0 +1,23 @@
+{
+    "name": "freescout/folderdrop",
+    "description": "Gespräche auf einen Custom Folder ziehen und nur dessen Markierung setzen.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "NeptunedGmbH"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\FolderDrop\\Providers\\FolderDropServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\FolderDrop\\": ""
+        }
+    }
+}

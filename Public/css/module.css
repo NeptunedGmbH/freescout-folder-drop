@@ -1,0 +1,8 @@
+#folders li.folderdrop-valid > a {
+    outline: 2px solid #1f6feb;
+    outline-offset: -2px;
+}
+
+#folders li.folderdrop-over > a {
+    background-color: #e8f2ff;
+}
