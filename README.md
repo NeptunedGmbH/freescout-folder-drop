@@ -1,14 +1,14 @@
 # FolderDrop
 
-Früher Prototyp. Noch kein Release.
+Early prototype. No release yet.
 
-Gespräche aus der Liste auf einen Custom Folder ziehen. Dabei wird nur die Markierung dieses Ordners gesetzt. Der Status des Gesprächs bleibt.
+Drag conversations from the list onto a custom folder. That only sets the tag for that folder. The conversation status stays as it is.
 
-Lizenz: [MIT](LICENSE).
+License: [MIT](LICENSE).
 
 ## Installation
 
-Das Repository ist das FreeScout-Modul. Es kommt nach `Modules/FolderDrop`. In diesem Setup ist das `/data/Modules/FolderDrop`.
+This repository is the FreeScout module. It belongs in `Modules/FolderDrop`. In this setup that is `/data/Modules/FolderDrop`.
 
 ```bash
 docker cp . freescout-app:/data/Modules/FolderDrop
@@ -16,21 +16,21 @@ docker exec -w /www/html freescout-app php artisan module:enable FolderDrop
 docker exec -w /www/html freescout-app php artisan freescout:module-install folderdrop
 ```
 
-Im Container gibt es kein Node. `Public/js/module.js` liegt übersetzt im Modul. Wer den TypeScript-Quelltext ändert, übersetzt ihn auf dem Host mit `npm run build`.
+The container has no Node. `Public/js/module.js` is the built file shipped with the module. After changing the TypeScript source, build it on the host with `npm run build`.
 
-## Aktivieren
+## Activate
 
-Das Modul in FreeScout aktivieren. In der Verwaltung unter Module, oder im Container `freescout-app`:
+Activate the module in FreeScout, under Manage → Modules, or in the `freescout-app` container:
 
 ```bash
 php artisan module:enable FolderDrop
 ```
 
-Danach den Cache einmal leeren, damit der aktive Stand geladen wird.
+Clear the cache once afterwards so the active build is loaded.
 
 ## Rollback
 
-Modul aus. Es gibt keine eigene Tabelle und keine Migration. Gesetzte Markierungen bleiben, wie eine von Hand gesetzte Markierung.
+Turn the module off. It has no table of its own and no migration. Tags that were set stay, the same as a tag set by hand.
 
 ```bash
 docker exec -w /www/html freescout-app php artisan module:disable folderdrop
@@ -38,16 +38,16 @@ docker exec -w /www/html freescout-app php artisan module:disable folderdrop
 
 ## NestedTags
 
-`NestedTags` ist nicht nötig. Dieses Modul verlangt es nicht. Liegt die Verschachtelung daneben, bleiben eingerückte Ordner Ziele, weil sie Custom Folders bleiben.
+`NestedTags` is optional. This module does not require it. When nesting is installed alongside, indented folders stay drop targets, because they are still custom folders.
 
 ## UpdateGuard
 
-UpdateGuard ruft den nur lesenden Befehl auf. Er schreibt nichts, migriert nichts und baut keine Verbindung auf.
+UpdateGuard runs the read-only command. It does not write, does not migrate, and does not open a connection.
 
 ```bash
 php artisan folderdrop:health --json
 ```
 
-Exit-Code 0 und `"status":"ok"` bedeuten, dass die Dateien, die Klassen, die Route `folderdrop.ajax`, die öffentliche Datei `modules/folderdrop/js/module.js` und die gleiche Version in `version.txt` und `module.json` stimmen.
+Exit code 0 and `"status":"ok"` mean the files, the classes, the `folderdrop.ajax` route, the public file `modules/folderdrop/js/module.js`, and the same version in `version.txt` and `module.json` all check out.
 
-`version.txt` auf `main` ist die Versionszeile. Ein Release und damit `FolderDrop.zip` plus `SHA256SUMS` gibt es noch nicht. Der automatische Download über UpdateGuard wartet darauf. `scripts/sha256sums.sh` schreibt `SHA256SUMS` im GNU-Format `<64 hex>  FolderDrop.zip` und lehnt jeden anderen Dateinamen ab. Der Workflow `.github/workflows/sha256sums.yml` hängt dieselbe Datei erst an ein Release, das `FolderDrop.zip` schon enthält. Er legt selbst kein Release an.
+`version.txt` on `main` is the version line. There is no release yet, so there is no `FolderDrop.zip` or `SHA256SUMS`. Automatic download through UpdateGuard waits for that. `scripts/sha256sums.sh` writes `SHA256SUMS` in GNU format `<64 hex>  FolderDrop.zip` and rejects any other filename. The workflow `.github/workflows/sha256sums.yml` attaches that file only to a release that already contains `FolderDrop.zip`. It does not create a release itself.
