@@ -9,6 +9,7 @@
     "detailsUrl": "https://github.com/NeptunedGmbH/freescout-folder-drop",
     "author": "NeptunedGmbH",
     "authorUrl": "https://github.com/NeptunedGmbH",
+    "img": "/modules/folderdrop/img/module.png",
     "requiredAppVersion": "1.8.246",
     "requiredPhpVersion": "8.1",
     "license": "MIT",
