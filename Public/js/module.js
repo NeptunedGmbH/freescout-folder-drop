@@ -30,11 +30,11 @@
         if (!(target instanceof Element)) {
             return null;
         }
-        var row = target.closest("tr.conv-row[data-conversation_id]");
+        var row = target.closest("tr.conv-row[data-conversation_id], li.chat-item[data-conv_id]");
         return row instanceof HTMLElement ? row : null;
     }
     function idsForRow(row) {
-        var ownId = parseId(row.getAttribute("data-conversation_id"));
+        var ownId = parseId(row.getAttribute("data-conversation_id") || row.getAttribute("data-conv_id"));
         var checkbox = row.querySelector(".conv-checkbox");
         var selected = checkbox instanceof HTMLInputElement && checkbox.checked;
         if (!selected) {
@@ -61,7 +61,7 @@
         return ids;
     }
     function prepareRows() {
-        var rows = document.querySelectorAll("tr.conv-row[data-conversation_id]");
+        var rows = document.querySelectorAll("tr.conv-row[data-conversation_id], li.chat-item[data-conv_id]");
         var i = 0;
         for (i = 0; i < rows.length; i++) {
             var row = rows[i];
@@ -147,7 +147,7 @@
         markTargets(true);
     }
     function dragLabel(row, count) {
-        var subject = row.querySelector("td.conv-subject p");
+        var subject = row.querySelector("td.conv-subject p, .chat-preview");
         var text = "";
         if (subject instanceof HTMLElement) {
             text = (subject.textContent || "").replace(/\s+/g, " ").trim();
@@ -228,8 +228,34 @@
             target.classList.remove("folderdrop-wait");
         });
     }
+    function pageMailboxId() {
+        var fromBody = $("body:first").attr("data-mailbox_id") || "";
+        if (fromBody) {
+            return fromBody;
+        }
+        var col = document.getElementById("conv-list-col");
+        var fromCol = col ? col.getAttribute("data-mailbox_id") || "" : "";
+        if (fromCol) {
+            return fromCol;
+        }
+        var input = document.querySelector('input[name="mailbox_id"]');
+        if (input instanceof HTMLInputElement && input.value) {
+            return input.value;
+        }
+        return "";
+    }
+    function watchConvList() {
+        var list = document.getElementById("conv-list-col-items");
+        if (!list || typeof MutationObserver === "undefined") {
+            return;
+        }
+        var observer = new MutationObserver(function () {
+            prepareRows();
+        });
+        observer.observe(list, { childList: true });
+    }
     function loadTargets() {
-        var mailboxId = $("body:first").attr("data-mailbox_id") || "";
+        var mailboxId = pageMailboxId();
         if (!mailboxId) {
             droppableIds = [];
             return;
@@ -289,6 +315,7 @@
             fine.addEventListener("change", prepareRows);
         }
         hookLoadConversations();
+        watchConvList();
         prepareRows();
         loadTargets();
     }

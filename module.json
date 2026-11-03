@@ -2,7 +2,7 @@
     "name": "FolderDrop",
     "alias": "folderdrop",
     "description": "Add-on for Custom Folders: drag a conversation onto a folder and set only that folder's tag.",
-    "version": "0.1",
+    "version": "0.2",
     "requiredModules": {
         "customfolders": "1.0.0"
     },
