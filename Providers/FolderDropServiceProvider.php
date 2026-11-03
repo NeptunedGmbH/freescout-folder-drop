@@ -45,6 +45,10 @@ class FolderDropServiceProvider extends ServiceProvider
      */
     public function hooks()
     {
+        if (!self::customFoldersReady()) {
+            return;
+        }
+
         \Eventy::addFilter('stylesheets', function ($styles) {
             $styles[] = \Module::getPublicPath(FOLDERDROP_MODULE).'/css/module.css';
 
@@ -77,5 +81,25 @@ class FolderDropServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
+    }
+
+    /**
+     * Official Custom Folders must be on, with its license marked activated.
+     * The license key is never read.
+     *
+     * @return bool
+     */
+    public static function customFoldersReady()
+    {
+        try {
+            if (!\App\Module::isActive('customfolders')) {
+                return false;
+            }
+            $module = \App\Module::getByAlias('customfolders');
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return $module && !empty($module->activated);
     }
 }

@@ -66,8 +66,17 @@ class FolderDropController extends Controller
 
         $attached = 0;
         if ($built && class_exists(Tag::class)) {
-            $attached = DropPlan::apply($built, $conversations, function ($tagName, $conversationId) {
+            $ancestors = array();
+            if ($folder && class_exists(\Modules\NestedTags\Support\FolderTree::class)) {
+                $ancestors = \Modules\NestedTags\Support\FolderTree::ancestorTagNames((int) $folder->id);
+            }
+            $attached = DropPlan::apply($built, $conversations, function ($tagName, $conversationId) use ($ancestors) {
                 Tag::attachByName($tagName, $conversationId);
+                foreach ($ancestors as $ancestor) {
+                    if ($ancestor !== $tagName) {
+                        Tag::attachByName($ancestor, $conversationId);
+                    }
+                }
             });
         }
 

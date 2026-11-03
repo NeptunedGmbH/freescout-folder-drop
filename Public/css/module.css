@@ -1,8 +1,56 @@
 #folders li.folderdrop-valid > a {
-    outline: 2px solid #1f6feb;
-    outline-offset: -2px;
+    background-color: rgba(31, 111, 235, 0.08);
+    box-shadow: inset 3px 0 0 #1f6feb;
 }
 
-#folders li.folderdrop-over > a {
-    background-color: #e8f2ff;
+#folders li.folderdrop-over > a,
+#folders li.nestedtags-child.folderdrop-over > a,
+#folders li.folderdrop-over > a .glyphicon,
+#folders li.folderdrop-over > a .folder-name,
+#folders li.folderdrop-over > a .active-count,
+#folders li.folderdrop-over .nestedtags-toggle {
+    background-color: #1f6feb !important;
+    color: #fff !important;
+}
+
+.folderdrop-chip {
+    position: absolute;
+    top: 0;
+    left: -9999px;
+    max-width: 240px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #1f6feb;
+    color: #fff;
+    font: 13px/16px sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
+}
+
+#folders li.folderdrop-done > a {
+    background-color: rgba(46, 160, 67, 0.22);
+    box-shadow: inset 3px 0 0 #2ea043;
+    transition: background-color 0.2s ease;
+}
+
+body.dm #folders li.folderdrop-valid > a {
+    background-color: rgba(121, 168, 255, 0.12);
+    box-shadow: inset 3px 0 0 #79a8ff;
+}
+
+body.dm #folders li.folderdrop-over > a,
+body.dm #folders li.nestedtags-child.folderdrop-over > a,
+body.dm #folders li.folderdrop-over > a .glyphicon,
+body.dm #folders li.folderdrop-over > a .folder-name,
+body.dm #folders li.folderdrop-over > a .active-count,
+body.dm #folders li.folderdrop-over .nestedtags-toggle {
+    background-color: #3b82f6 !important;
+    color: #fff !important;
+}
+
+body.dm #folders li.folderdrop-done > a {
+    background-color: rgba(63, 185, 80, 0.28);
+    box-shadow: inset 3px 0 0 #3fb950;
 }

@@ -2,6 +2,7 @@
 (function () {
     var droppableIds = [];
     var draggingIds = [];
+    var dragChip = null;
     function pointerIsFine() {
         return window.matchMedia("(pointer: fine)").matches;
     }
@@ -136,8 +137,31 @@
         if (event.dataTransfer) {
             event.dataTransfer.effectAllowed = "copy";
             event.dataTransfer.setData("text/plain", draggingIds.join(","));
+            var chip = document.createElement("div");
+            chip.className = "folderdrop-chip";
+            chip.textContent = dragLabel(row, draggingIds.length);
+            document.body.appendChild(chip);
+            dragChip = chip;
+            event.dataTransfer.setDragImage(chip, 14, chip.offsetHeight + 12);
         }
         markTargets(true);
+    }
+    function dragLabel(row, count) {
+        var subject = row.querySelector("td.conv-subject p");
+        var text = "";
+        if (subject instanceof HTMLElement) {
+            text = (subject.textContent || "").replace(/\s+/g, " ").trim();
+        }
+        if (!text) {
+            text = "Gespräch";
+        }
+        if (text.length > 48) {
+            text = text.slice(0, 47) + "…";
+        }
+        if (count > 1) {
+            return count + " Gespräche · " + text;
+        }
+        return text;
     }
     function onDragOver(event) {
         var item = folderItem(event.target);
@@ -164,6 +188,10 @@
     function clearDrag() {
         draggingIds = [];
         markTargets(false);
+        if (dragChip && dragChip.parentNode) {
+            dragChip.parentNode.removeChild(dragChip);
+        }
+        dragChip = null;
     }
     function onDrop(event) {
         var item = folderItem(event.target);
@@ -172,23 +200,32 @@
         }
         var folderId = parseId(item.getAttribute("data-folder_id"));
         var ids = draggingIds.slice();
+        var target = item;
         clearDrag();
         if (!isDroppable(folderId) || !ids.length) {
             return;
         }
         event.preventDefault();
+        target.classList.add("folderdrop-wait");
         fsAjax({
             folder_id: folderId,
             conversation_ids: ids
         }, laroute.route("folderdrop.ajax"), function (response) {
+            ajaxFinish();
+            target.classList.remove("folderdrop-wait");
+            target.classList.remove("folderdrop-over");
             var data = response;
             if (!isAjaxSuccess(response)) {
                 showFloatingAlert("error", data && data.msg ? data.msg : "Keine Markierung gesetzt");
                 return;
             }
-            if (data && data.attached && data.attached > 0) {
-                showFloatingAlert("success", data.msg || "Markierung gesetzt");
-            }
+            target.classList.add("folderdrop-done");
+            window.setTimeout(function () {
+                target.classList.remove("folderdrop-done");
+            }, 900);
+        }, true, function () {
+            ajaxFinish();
+            target.classList.remove("folderdrop-wait");
         });
     }
     function loadTargets() {

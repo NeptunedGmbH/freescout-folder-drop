@@ -13,7 +13,8 @@ interface FolderDropAjaxFn {
         data: FolderDropAjaxData,
         url: string,
         success?: (response: unknown) => void,
-        noLoader?: boolean
+        noLoader?: boolean,
+        error?: () => void
     ): void;
 }
 
@@ -33,5 +34,7 @@ declare const laroute: {
 declare function isAjaxSuccess(response: unknown): boolean;
 
 declare function showFloatingAlert(type: string, message: string, noAutohide?: boolean): void;
+
+declare function ajaxFinish(): void;
 
 declare var loadConversations: LoadConversationsFn;

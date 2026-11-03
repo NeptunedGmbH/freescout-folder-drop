@@ -23,7 +23,7 @@ Siehe proposal.md. Custom Folders vom Typ 200 tragen die `tag_id` in `folders.me
 
 1. **Eigenes Modul `FolderDrop`, Alias `folderdrop`.** Es verlangt `NestedTags` nicht. Alternative: Drag in `NestedTags`. Verworfen, weil flache Custom Folders das Ziel sein sollen, ohne den Baum zu installieren. Begründung: ADR 2.
 
-2. **Der Server liest den Tag vom Ordner.** Der Client sendet `folder_id` und Gesprächs-IDs. Der Server prüft Typ Custom Folder, dieselbe Mailbox, vorhandene `tag_id` und dass die Person die Gespräche sehen darf, dann `Tag::attachByName`. Alternative: der Client schickt den Tag-Namen an `tags.ajax`. Verworfen, weil ein gefälschter Name sonst einen beliebigen Tag setzen könnte.
+2. **Der Server liest den Tag vom Ordner.** Der Client sendet `folder_id` und Gesprächs-IDs. Der Server prüft Typ Custom Folder, dieselbe Mailbox, vorhandene `tag_id` und dass die Person die Gespräche sehen darf, dann `Tag::attachByName`. Liegt NestedTags daneben und der Ordner hat Hauptordner, setzt derselbe Schritt auch deren Tags. Alternative: der Client schickt den Tag-Namen an `tags.ajax`. Verworfen, weil ein gefälschter Name sonst einen beliebigen Tag setzen könnte.
 
 3. **Eigene Drag-Events, nicht `sortable`.** `sortable` hängt die Knoten um. Das Modul setzt native Drag-Events auf `tr.conv-row` und die Ordner-`<li data-folder_id>`. Die Zeile enthält Links, die der Browser sonst als Adresse zieht. `dragstart` auf diesen Links wird abgebrochen, ein Klick öffnet das Gespräch weiter. `dragover` auf dem Ordner-Link ruft `preventDefault` auf, sonst feuert `drop` nicht. Ist die gezogene Zeile Teil der angehakten Auswahl (`.conv-checkbox`), gehen alle angehakten Gespräche dieser Mailbox mit, sonst nur die Zeile.
 

@@ -29,6 +29,7 @@ class HealthCommand extends Command
             'routes' => $this->routes(),
             'assets' => $this->assets(),
             'version' => $this->versionsMatch($root),
+            'customfolders' => $this->customFolders(),
         ];
 
         $failed = 0;
@@ -179,5 +180,27 @@ class HealthCommand extends Command
         }
 
         return trim((string) $manifest['version']);
+    }
+
+    /**
+     * Official Custom Folders must be active and its license marked activated.
+     *
+     * @return string
+     */
+    protected function customFolders()
+    {
+        try {
+            if (!\App\Module::isActive('customfolders')) {
+                return 'customfolders inactive';
+            }
+            $module = \App\Module::getByAlias('customfolders');
+        } catch (\Exception $e) {
+            return 'customfolders unavailable';
+        }
+        if (!$module || empty($module->activated)) {
+            return 'customfolders license inactive';
+        }
+
+        return 'ok';
     }
 }

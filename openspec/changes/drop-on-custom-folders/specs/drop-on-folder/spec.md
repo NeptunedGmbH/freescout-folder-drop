@@ -7,7 +7,7 @@ Gespräche lassen sich auf einen Custom Folder ziehen. Das setzt den Tag dieses 
 ## ADDED Requirements
 
 ### Requirement: Ziehen setzt den Tag des Ordners
-Das System MUST erlauben, ein Gespräch oder die markierte Auswahl aus der Liste auf einen sichtbaren Custom Folder derselben Mailbox zu ziehen. Danach MUST das Gespräch den Tag dieses Ordners tragen. Andere Tags MUST bleiben. Der Tag eines Elternordners oder Unterordners MUST NOT gesetzt werden.
+Das System MUST erlauben, ein Gespräch oder die markierte Auswahl aus der Liste auf einen sichtbaren Custom Folder derselben Mailbox zu ziehen. Danach MUST das Gespräch den Tag dieses Ordners tragen. Andere Tags MUST bleiben. Liegt der Ordner unter einem Hauptordner, MUST das Gespräch auch den Tag jedes Hauptordners darüber tragen. Der Tag eines Unterordners MUST NOT gesetzt werden.
 
 #### Scenario: Ein Gespräch
 - **WHEN** jemand ein Gespräch auf den Ordner Onboarding zieht und dieser Ordner einen Tag hat
@@ -25,9 +25,9 @@ Das System MUST erlauben, ein Gespräch oder die markierte Auswahl aus der Liste
 - **WHEN** das Gespräch den Tag des Zielordners schon trägt
 - **THEN** bleibt der Tag gesetzt und das Ziehen gilt als gelungen
 
-#### Scenario: Verschachtelt ohne Wissen um den Baum
+#### Scenario: Reinziehen auf einen Unterordner
 - **WHEN** Onboarding unter Personal sichtbar ist und jemand ein Gespräch auf Onboarding zieht
-- **THEN** trägt das Gespräch den Tag von Onboarding und nicht den Tag von Personal
+- **THEN** trägt das Gespräch den Tag von Onboarding und den Tag von Personal
 
 #### Scenario: Nachgeladene Zeile
 - **WHEN** die Liste weitere Gespräche nachlädt
